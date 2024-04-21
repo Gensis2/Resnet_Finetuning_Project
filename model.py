@@ -15,14 +15,14 @@ class ResNetClassifier:
 
     def add_classification_layers(self):
         x = GlobalAveragePooling2D()(self.resnet_model.output)
-        x = Dense(64, activation='relu')(x)
+        x = Dense(512, activation='relu')(x)
         x = Dropout(0.5)(x)
-        x = Dense(64, activation='relu')(x)
+        x = Dense(256, activation='relu')(x)
         predictions = Dense(self.num_classes, activation='softmax')(x)
         self.model = Model(inputs=self.resnet_model.input, outputs=predictions)
 
     def compile_model(self):
-        self.model.compile(optimizer=Adam(learning_rate = 0.002), loss='categorical_crossentropy', metrics=['accuracy'])
+        self.model.compile(optimizer=Adam(), loss='categorical_crossentropy', metrics=['accuracy'])
 
     def fit(self, training_data, batch_size, epochs, validation_data=None):
         if validation_data is not None:
